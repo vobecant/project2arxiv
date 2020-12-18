@@ -1,3 +1,4 @@
+import argparse
 import os
 import shutil
 import sys
@@ -110,16 +111,18 @@ def main(root_path, tgt_dir, logfile):
 
 
 if __name__ == '__main__':
-    # path to the project
-    root_path = sys.argv[1]
-    # where the new project should be saved
-    tgt_dir = sys.argv[2]
-    # where is the .log file of the corresponding project
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--root_path', default='', required=True, type=str, help='Path to the project directory.')
+    parser.add_argument('--tgt_dir', default='', required=True, type=str,
+                        help='Directory where the new project should be saved.')
+    parser.add_argument('--logfile', default='', required=True, type=str,
+                        help='Path to the .log file of the project.')
+    args = parser.parse_args()
+    
     # If you downloaded project from overleaf, you might need to download this .log file manually.
     # You can find it if you click the 'Logs and output files' next to 'Recompile' button. Then you need to scroll to
     # the bottom, click 'Other logs and files', and choose 'log file'.
-    logfile = sys.argv[3]
     # Also note that, in case that you use bibtex, you need to download (and put to the project directory) the '.bbl'
     # file. You can find it in the Overleaf in the same place as the .log file.
     # See https://arxiv.org/help/submit_tex#bibtex.
-    main(root_path, tgt_dir, logfile)
+    main(args.root_path, args.tgt_dir, args.logfile)
